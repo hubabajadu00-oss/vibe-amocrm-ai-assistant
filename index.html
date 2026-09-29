@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AmoCRM AI Assistant — О-комплекс (Тестовое задание)</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --green: #10b981;
+      --purple: #8b5cf6;
+      --amber: #f59e0b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: var(--bg); color: var(--text); padding: 24px; min-height: 100vh; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+    .title h1 { font-size: 22px; font-weight: 700; color: #fff; }
+    .title p { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+    .badge { background: rgba(59, 130, 246, 0.15); color: #60a5fa; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; border: 1px solid rgba(59, 130, 246, 0.3); }
+
+    .layout { display: grid; grid-template-columns: 380px 1fr; gap: 24px; }
+    @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+    .card-header { font-size: 15px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+
+    .deal-meta { margin-bottom: 16px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 13px; line-height: 1.6; }
+    .deal-meta span { color: var(--text-muted); }
+
+    .presets { margin-bottom: 16px; }
+    .presets-title { font-size: 12px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px; }
+    .preset-btn { background: #334155; border: none; color: #e2e8f0; font-size: 12px; padding: 6px 10px; border-radius: 6px; margin: 0 4px 6px 0; cursor: pointer; transition: 0.15s; }
+    .preset-btn:hover { background: var(--accent); color: #fff; }
+
+    textarea { width: 100%; height: 100px; background: #0f172a; border: 1px solid var(--border); border-radius: 8px; color: #fff; padding: 12px; font-size: 14px; resize: none; margin-bottom: 12px; }
+    textarea:focus { outline: none; border-color: var(--accent); }
+
+    .btn-submit { width: 100%; background: var(--accent); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.15s; }
+    .btn-submit:hover { background: var(--accent-hover); }
+
+    .results-grid { display: flex; flex-direction: column; gap: 20px; }
+
+    .block-client { border-left: 4px solid var(--green); background: rgba(16, 185, 129, 0.05); }
+    .block-client .card-header { color: #34d399; }
+
+    .block-manager { border-left: 4px solid var(--amber); background: rgba(245, 158, 11, 0.05); }
+    .block-manager .card-header { color: #fbbf24; }
+
+    .content-box { font-size: 14px; line-height: 1.6; color: #cbd5e1; white-space: pre-wrap; margin-bottom: 14px; }
+
+    .btn-copy { background: #334155; color: #f1f5f9; border: 1px solid #475569; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; transition: 0.15s; }
+    .btn-copy:hover { background: #475569; }
+
+    .upsell-item { background: rgba(0,0,0,0.3); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+    .upsell-badge { background: #d97706; color: #fff; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+
+    .strategy-list { margin-top: 12px; padding-left: 18px; font-size: 13px; color: #94a3b8; line-height: 1.5; }
+    .trigger-question { background: rgba(139, 92, 246, 0.1); border: 1px dashed #a78bfa; border-radius: 8px; padding: 12px; margin-top: 14px; font-size: 13px; color: #ddd6fe; }
+
+    footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="title">
+        <h1>AmoCRM AI Assistant & Upsell Engine</h1>
+        <p>Тестовое задание для вакансии «Разработчик (Вайбкодинг & ИИ)» — О-комплекс</p>
+      </div>
+      <div class="badge">Вайбкодинг & AI-Native</div>
+    </header>
+
+    <div class="layout">
+      <!-- Left Column: Input and CRM Context -->
+      <div class="card">
+        <div class="card-header">
+          <span>💼 Карточка сделки в AmoCRM</span>
+        </div>
+
+        <div class="deal-meta">
+          <div><span>Сделка:</span> <strong>#4829 — Внедрение ИИ-решений</strong></div>
+          <div><span>Клиент:</span> ООО «СнабХолдинг» (Алексей)</div>
+          <div><span>Ответственный:</span> Менеджер AmoCRM</div>
+          <div><span>Канал:</span> Онлайн-чат на сайте / WhatsApp</div>
+        </div>
+
+        <div class="presets">
+          <div class="presets-title">Быстрые сценарии обращений:</div>
+          <button class="preset-btn" onclick="setQuery('Здравствуйте! Сколько стоит у вас разработка MVP по вайбкодингу и какие сроки?')">⚡ MVP по вайбкодингу</button>
+          <button class="preset-btn" onclick="setQuery('Добрый день! Интересует корпоративная база знаний RAG по регламентам. Как это работает?')">📚 База знаний RAG</button>
+          <button class="preset-btn" onclick="setQuery('Подскажите, можно ли подключить ИИ-ассистента прямо в диалоговое окно AmoCRM?')">🤖 ИИ в AmoCRM</button>
+        </div>
+
+        <div class="presets-title">Обращение клиента:</div>
+        <textarea id="clientInput" placeholder="Введите входящее сообщение клиента..."></textarea>
+
+        <button class="btn-submit" onclick="generateReply()">
+          <span>Сгенерировать ответ и подсказку</span> ➔
+        </button>
+      </div>
+
+      <!-- Right Column: Dual AI Output -->
+      <div class="results-grid">
+        <!-- Block 1: Client Facing -->
+        <div class="card block-client">
+          <div class="card-header">
+            <span>💬 БЛОК 1: Вежливый ответ клиенту</span>
+          </div>
+          <div class="content-box" id="clientReplyBox">
+Нажмите «Сгенерировать ответ», чтобы сформировать персонализированный ответ на основе базы знаний компании.
+          </div>
+          <button class="btn-copy" onclick="copyText('clientReplyBox')">📋 Скопировать в чат AmoCRM</button>
+        </div>
+
+        <!-- Block 2: Manager Facing (Upsell) -->
+        <div class="card block-manager">
+          <div class="card-header">
+            <span>💡 БЛОК 2: Подсказка менеджеру по допродажам (Upsell & Cross-sell)</span>
+          </div>
+
+          <div id="upsellContainer">
+            <div class="content-box">
+Здесь появятся рекомендации по допродажам, релевантные задаче клиента, с аргументами для повышения среднего чека сделки.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div>Стек решения: <strong>Claude Code</strong>, <strong>Cursor</strong>, <strong>RAG Architecture</strong>, Python, REST API</div>
+      <div>Кандидат: <strong>Пётр Измайлов</strong></div>
+    </footer>
+  </div>
+
+  <script>
+    function setQuery(text) {
+      document.getElementById('clientInput').value = text;
+      generateReply();
+    }
+
+    async function generateReply() {
+      const msg = document.getElementById('clientInput').value.trim();
+      if (!msg) return;
+
+      document.getElementById('clientReplyBox').innerText = 'Анализ обращения и поиск по базе знаний...';
+      document.getElementById('upsellContainer').innerHTML = '<div class="content-box">Формирование стратегии допродаж...</div>';
+
+      try {
+        let data = null;
+        try {
+          const res = await fetch('/api/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: msg })
+          });
+          if (res.ok) data = await res.json();
+        } catch (e) {
+          // Backend not reachable (e.g. GitHub Pages static deployment)
+        }
+
+        if (!data) {
+          // Client-side RAG fallback engine
+          data = runClientSideRAG(msg);
+        }
+
+        // Render Client Reply
+        document.getElementById('clientReplyBox').innerText = data.client_reply;
+
+        // Render Manager Upsell
+        const upsell = data.manager_upsell;
+        let upsellHtml = `
+          <div style="margin-bottom: 12px; font-size: 13px;">
+            <span>Целевая услуга:</span> <strong style="color: #60a5fa;">${upsell.target_service}</strong> (${upsell.primary_price})
+          </div>
+          <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: #f59e0b; margin-bottom: 6px;">Рекомендуемые допродажи:</div>
+        `;
+
+        upsell.upsell_recommendations.forEach(opt => {
+          upsellHtml += `
+            <div class="upsell-item">
+              <span class="upsell-badge">UPSELL</span>
+              <span>${opt}</span>
+            </div>
+          `;
+        });
+
+        upsellHtml += `
+          <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: #94a3b8; margin: 12px 0 6px 0;">Стратегия переговоров:</div>
+          <ul class="strategy-list">
+            ${upsell.sales_strategy.map(s => `<li>${s}</li>`).join('')}
+          </ul>
+          <div class="trigger-question">
+            <strong>🎯 Вопрос-триггер для клиента:</strong><br>
+            ${upsell.suggested_manager_question}
+          </div>
+        `;
+
+        document.getElementById('upsellContainer').innerHTML = upsellHtml;
+
+      } catch (err) {
+        document.getElementById('clientReplyBox').innerText = 'Ошибка обработки: ' + err.message;
+      }
+    }
+
+    function runClientSideRAG(clientMsg) {
+      const text = clientMsg.toLowerCase();
+      let serviceName = "Быстрая разработка MVP (Вайбкодинг & ИИ)";
+      let price = "от 60 000 руб.";
+      let timeline = "3–7 рабочих дней";
+      let upsells = [
+        "Интеграция с корпоративной AmoCRM / Bitrix24 (+30 000 руб.)",
+        "Месячная техподдержка и мониторинг 24/7 (+25 000 руб./мес)"
+      ];
+
+      if (text.includes("баз") || text.includes("знани") || text.includes("rag") || text.includes("документ") || text.includes("регламент")) {
+        serviceName = "Корпоративная база знаний (RAG-система)";
+        price = "от 95 000 руб.";
+        timeline = "7–14 рабочих дней";
+        upsells = [
+          "Telegram-бот для сотрудников с разграничением прав (+35 000 руб.)",
+          "Модуль аналитики частых вопросов и слабых мест в регламентах (+20 000 руб.)"
+        ];
+      } else if (text.includes("crm") || text.includes("amocrm") || text.includes("амо") || text.includes("менеджер") || text.includes("продаж")) {
+        serviceName = "ИИ-ассистент для менеджеров в AmoCRM";
+        price = "от 80 000 руб.";
+        timeline = "5–10 рабочих дней";
+        upsells = [
+          "Автоматическое заполнение полей сделки и скоринг лида (+25 000 руб.)",
+          "Обучение отдела продаж работе с ИИ-подсказками (+15 000 руб.)"
+        ];
+      }
+
+      return {
+        client_reply: `Здравствуйте! Спасибо за обращение в О-комплекс. По вашей задаче отлично подходит наше решение «${serviceName}». Ориентировочные сроки внедрения составляют ${timeline}, а стоимость базового этапа — ${price}. Мы можем продемонстрировать демо-стенд или собрать пилот на ваших данных за 2 дня. Подскажите, пожалуйста, в какое время вам было бы удобно провести короткий 15-минутный звонок для обсуждения деталей?`,
+        manager_upsell: {
+          target_service: serviceName,
+          primary_price: price,
+          upsell_recommendations: upsells,
+          sales_strategy: [
+            "1. Предложите сразу закрыть вопрос сквозной интеграции с текущей CRM: связка баз знаний с AmoCRM повышает конверсию менеджеров на 30–40%.",
+            "2. Укажите на выгоду годовой или квартальной поддержки — это гарантирует регулярное обновление промптов и моделей без найма штатного инженера.",
+            "3. Предложите бесплатный 48-часовой пилот на 1 регламенте компании как триггер для быстрого заключения договора."
+          ],
+          suggested_manager_question: "«Кстати, помимо базового сценария, планируете ли подключать сотрудников через Telegram-бота или делать автоматический скоринг лидов в AmoCRM?»"
+        }
+      };
+      }
+    }
+
+    function copyText(id) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text);
+      alert('Скопировано в буфер обмена!');
+    }
+  </script>
+</body>
+</html>
